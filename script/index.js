@@ -7,10 +7,34 @@ const createElements = (arr) =>{
 // voice systems
 
 function pronounceWord(word) {
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "en-EN"; // English
-  window.speechSynthesis.speak(utterance);
+  if (!("speechSynthesis" in window)) {
+    alert("Sorry, your browser does not support Text-to-Speech!");
+    return;
+  }
+
+  const speak = () => {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+
+    const voices = speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      utterance.voice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+    }
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utterance);
+  };
+
+  // কিছু মোবাইলে voices load হতে দেরি হয়
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.onvoiceschanged = () => speak();
+  } else {
+    speak();
+  }
 }
+
 
 // spinner managing
 
@@ -147,7 +171,7 @@ words.forEach((word) =>{
     card.innerHTML=`
     <div class="bg-white rounded-xl shadow-sm text-center py-10 px-5 space-y-4"> 
             <h2 class="font-bold text-2xl">${word.word ? word.word : "শব্দ পাওয়া যায়নি"}</h2>
-            <p class="font-semibold break-words">Meaning/Pronounciation</p>
+            <p class="font-semibold break-words">Meaning/Pronunciation</p>
             <div class="text-2xl font-medium font-bangla">${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি" } / ${word.pronunciation ? word.pronunciation : "উচ্চারন পাওয়া যায়নি"}</div>
             <div class="flex justify-between items-center">
                 <button onclick="loadwordDetail(${word.id})" class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid fa-circle-info"></i></button>
