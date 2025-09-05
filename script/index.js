@@ -1,10 +1,10 @@
-// synonyms array
+// step-1 synonyms array
 const createElements = (arr) =>{
     const htmlElements = arr.map((el) => `<span class="btn">${el}</span>`);
     return htmlElements.join(" ");
 };
 
-// voice systems
+// step-2 voice systems
 
 function pronounceWord(word) {
   if (!("speechSynthesis" in window)) {
@@ -36,7 +36,7 @@ function pronounceWord(word) {
 }
 
 
-// spinner managing
+// step-3 spinner managing
 
 const manageSpinner =(status)=>{
     if(status==true){
@@ -52,7 +52,7 @@ const manageSpinner =(status)=>{
 
 
 
-
+// step-4
 const loadLessons=()=>{
     fetch("https://openapi.programming-hero.com/api/levels/all") /*promise of response*/
 
@@ -65,7 +65,7 @@ const removeActive=()=>{
     lessonButtons.forEach((btn)=> btn.classList.remove("active"));
 
 };
-
+// step-5
 const loadLevelWord = (id) => {
 
     manageSpinner(true);
@@ -101,12 +101,16 @@ const loadLevelWord = (id) => {
 
 // .then fetch er poriborte async await dia function
 
+
+// step-6
 const loadwordDetail = async(id)=>{
     const url =`https://openapi.programming-hero.com/api/word/${id}`;
     const res = await fetch(url);
     const details = await res.json();
     displayWordDetails(details.data);
 };
+
+// step-7
 const displayWordDetails =(word)=>{
     console.log(word);
     const detailsBox = document.getElementById("details-container");
@@ -122,13 +126,15 @@ const displayWordDetails =(word)=>{
             <p>${word.meaning}</p>
         </div>
 
-        
+        <div><h2 class="font-bold text-2xl text-gray-600">${word.partsOfSpeech}</h2></div>
+
 
         <div class="">
             <h2 class="font-bold" >Example</h2>
             <p>${word.sentence}</p>
         </div>
-
+        
+        
         <div class="">
             <h2 class="font-bold" >Synonym</h2>
             <div class ="">${createElements(word.synonyms)}</div>
@@ -141,6 +147,7 @@ const displayWordDetails =(word)=>{
 
 };
 
+// step-8
 const displayLevelWord = (words)=>{
 const wordContainer=document.getElementById("word-container");
 wordContainer.innerHTML = "";
@@ -186,6 +193,8 @@ words.forEach((word) =>{
 manageSpinner(false);
 };
 
+
+// step-9
 const displayLesson = (lessons) => {
     // 1. get the container & empty
     const levelContainer=document.getElementById("level-container");
@@ -209,6 +218,8 @@ const displayLesson = (lessons) => {
 loadLessons()
 
 // search voccabulary
+
+// step-10
 document.getElementById("btn-search").addEventListener("click",()=>{
     removeActive();
 const input = document.getElementById("input-search");
