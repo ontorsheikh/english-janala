@@ -1,3 +1,20 @@
+// bangla
+
+
+function pronounceWordBangla(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "hi-IN"; // Bangla
+  window.speechSynthesis.speak(utterance);
+
+  
+}
+
+
+
+
+
+
+
 // step-1 synonyms array
 const createElements = (arr) =>{
     const htmlElements = arr.map((el) => `<span class="btn">${el}</span>`);
