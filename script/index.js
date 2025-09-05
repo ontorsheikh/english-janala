@@ -3,7 +3,7 @@
 
 function pronounceWordBangla(word) {
   const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "hi-IN"; // Bangla
+  utterance.lang = "en-US"; // Bangla
   window.speechSynthesis.speak(utterance);
 
   
